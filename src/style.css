@@ -1,0 +1,65 @@
+/* Coded by FA_pew */
+html {
+    --skyCellSize: 40px;
+    --starSize: 10px;
+    --DeepSkyColor: #1a1e51;
+    --starColor: #fff;
+    --triggerFact: 5;
+    --blurS: 2px;
+}
+
+body {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+}
+
+#background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 5/*-5*/;
+
+    background-color: var(--DeepSkyColor);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    pointer-events: none;
+
+    overflow: hidden;
+   
+}
+
+#bgSky {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    filter: blur(var(--blurS));
+}
+
+.starBox {
+    width: 100%;
+    aspect-ratio: 1;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.star {
+    position: absolute;
+    width: var(--starSize);
+    aspect-ratio: 1;
+    border-radius: 100%;
+    background: var(--starColor);
+}
+
+.starBox.active > .star {
+    background: red;
+    transform: scale(1.8);
+}
