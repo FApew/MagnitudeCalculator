@@ -4,17 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MagnitudeCalc</title>
+    <title>FA_Magnitude</title>
     <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
-    <div id="background">
-        <div id="bgSky"></div>
-    </div>
     <div id="app">
-        
+        <div id="leftOutBox">
+            <div id="title">FA_MAGNITUDE<sub>by FA_pew</sub></div>
+            <div id="imgCol" class="col box">
+                <div class="subBox">
+                    <div class="icon" id="iImage"></div>
+                    <div class="subT">Image</div>
+                </div>
+                <div class="main" style="background: #f00">
+
+                </div>
+            </div>
+        </div>
+        <div id="graphCol" class="col">
+            <div id="starList" class="box">
+                <div class="subBox">
+                    <div class="icon" id="iStar"></div>
+                    <div class="subT">Star List</div>
+                </div>
+                <div class="main" style="background: #0f0">
+
+                </div>
+            </div>
+            <div id="HRgraph" class="box">
+                <div class="subBox">
+                    <div class="icon" id="iGraph"></div>
+                    <div class="subT">Graph</div>
+                </div>
+                <div class="main" style="background: #00f">
+
+                </div>
+            </div>
+        </div>
     </div>
 </body>
-<script src="src/script.js" defer></script>
+<script src="src/script.js" type="module" defer></script>
 <script src="src/main.js" type="module" defer></script>
 </html>
