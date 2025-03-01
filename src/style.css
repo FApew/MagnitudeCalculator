@@ -1,9 +1,14 @@
-/* Coded by FA_pew */
+/* -------------------------------------------------------------------------- */
+/*                         Coded by F. Aiello 02/2025                         */
+/* -------------------------------------------------------------------------- */
 html {
     --bg: #0c0d25;
     --col: #131539;
     --high: #2e327a;
     --top: #9ea0da;
+    --red: #a00;
+    --green: #0a0;
+    --blue: #00a
 }
 
 body {
@@ -74,6 +79,8 @@ body {
     height: 100%;
 
     border-radius: 20px;
+    padding: 0px 10px 10px 10px;
+    box-sizing: border-box;
     background: var(--col);
 
     display: grid;
@@ -101,15 +108,277 @@ body {
 }
 
 #iImage {
-    background-image: url("./assets/imgs/image.png");
+    background-image: url(./assets/imgs/image.png);
 }
 
 #iStar {
-    background-image: url("./assets/imgs/stars.png");
+    background-image: url(./assets/imgs/stars.png);
 }
 
 #iGraph {
-    background-image: url("./assets/imgs/graph.png");
+    background-image: url(./assets/imgs/graph.png);
+}
+
+#optionsBox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 50px;
+
+    padding-bottom: 30px;
+    box-sizing: border-box;
+}
+
+#mainOptions {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+    box-sizing: border-box;
+}
+
+.oBox {
+    position: relative;
+    width: min-content;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    grid-template-rows: 1fr;
+    column-gap: 5px;
+    box-sizing: border-box;
+
+    background-color: var(--high);
+    border-radius: 10px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.oTxt {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+
+    color: #fff;
+    font-family: "aero";
+    font-size: 20px;
+}
+
+.oInBox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.oNum {
+    position: relative;
+    width: 30px;
+
+    background-color: #00000000;
+    border: unset;
+    border-bottom: 2px solid #fff;
+    outline: unset;
+
+    text-align: center;
+    color: var(--top);
+    font-family: "aero";
+    font-size: 20px;
+}
+
+#submit {
+    position: relative;
+    width: 80%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+
+    border-radius: 10px;
+    background: var(--high);
+
+    color: #fff;
+    font-family: "aero";
+    font-size: 30px;
+
+    cursor: pointer;
+
+    transition: all .1s ease-out;
+}
+
+#submit:hover {
+    background: #fff;
+    color: var(--high);
+
+    transform: scale(1.1);
+}
+
+#imgSelector {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+#imgSlider {
+    position: relative;
+    height: 100%;
+    width: calc(300% + 93px);
+
+    display: flex;
+    flex-direction: row;
+
+    transition: all 0.6s cubic-bezier(.4, -.4, 0, 1);
+}
+
+.imgBox {
+    position: relative;
+    width: calc(100% / 3);
+    height: 100%;
+
+    border: 5px solid;
+    box-sizing: border-box;
+    border-radius: 20px;
+    margin-right: 31px;
+
+    overflow: hidden;
+}
+
+.imgBox#r {
+    border-color: var(--red);
+}
+
+.imgBox#g {
+    border-color: var(--green);
+}
+
+.imgBox#b {
+    border-color: var(--blue);
+}
+
+#mImg {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 250px 40px 1fr 40px;
+    grid-template-rows: 1fr;
+}
+
+.uploadBox {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.iUpload {
+    position: relative;
+    width: 200px;
+    aspect-ratio: 1;
+
+    background-image: url(./assets/imgs/upload.png);
+    background-size: contain;
+}
+
+.upTxt {
+    color: var(--top);
+    font-family: "aero";
+    font-size: 5vh;
+
+    cursor: pointer;
+
+    transition: all .1s ease-in;
+}
+
+.upTxt:hover {
+    transform: scale(1.1);
+}
+
+.cnvBox {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    visibility: hidden;
+}
+
+.cancel {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 40px;
+    height: 40px;
+    
+    border-radius: 10px;
+    background: var(--high);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #fff;
+    font-size: 40px;
+
+    cursor: pointer;
+
+    transition: all .1s ease-out;
+    font-family: "aero";
+}
+
+.cancel:hover {
+    color: var(--high);
+    background: #fff;
+    transform: scale(1.1);
+}
+
+.arrow {
+    position: relative;
+    width: 100%;
+    height: 40%;
+
+    align-self: center;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url(./assets/imgs/arrow.png);
+
+    transition: all .15s ease-in-out;
+}
+
+.arrow#imgAl {
+    transform: rotate(180deg);
+}
+
+.arrow:hover {
+    transform: scale(1.5);
+}
+
+.arrow#imgAl:hover {
+    transform: rotate(180deg) scale(1.5);
 }
 
 .subT {
@@ -130,9 +399,8 @@ body {
 
 .main {
     position: relative;
-    width: calc(100% - 40px);
-    height: calc(100% - 40px);
-    margin: 20px 0 0 20px;
+    width: 100%;
+    height: 100%;
     border-radius: 5px;
 }
 

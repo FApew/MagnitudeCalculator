@@ -1,10 +1,13 @@
-<!-- Coded by FA_pew -->
+<!-- ----------------------------------------------------------------------- -->
+<!--                       Coded by F. Aiello 02/2025                        -->
+<!-- ----------------------------------------------------------------------- -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FA_Magnitude</title>
+    <link rel="icon" href="./src/assets/imgs/icon.png">
     <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
@@ -16,8 +19,41 @@
                     <div class="icon" id="iImage"></div>
                     <div class="subT">Image</div>
                 </div>
-                <div class="main" style="background: #f00">
+                <div class="main" id="mImg">
+                    <div id="optionsBox">
+                        <div id="mainOptions"></div>
+                        <div id="submit"><p style="transform: translateY(3px);">SUBMIT</p></div>
+                    </div>
 
+                    <div id="imgAl" class="arrow"></div>
+
+                    <div id="imgSelector">
+                        <div id="imgSlider">
+                            <div class="imgBox" id="r">
+                                <div class="uploadBox"><div class="iUpload"></div><div id="0" class="upTxt">UPLOAD</div></div>
+                                <div class="cnvBox" id="0">
+                                    <canvas class="cnv" id="0"></canvas>
+                                    <div class="cancel" id="0"><p style="transform: translateY(4px);">×</p></div>
+                                </div>
+                            </div>
+                            <div class="imgBox" id="g">
+                                <div class="uploadBox"><div class="iUpload"></div><div id="1" class="upTxt">UPLOAD</div></div>
+                                <div class="cnvBox" id="1">
+                                    <canvas class="cnv" id="1"></canvas>
+                                    <div class="cancel" id="1"><p style="transform: translateY(4px);">×</p></div>
+                                </div>
+                            </div>
+                            <div class="imgBox" id="b">
+                                <div class="uploadBox"><div class="iUpload"></div><div id="2" class="upTxt">UPLOAD</div></div>
+                                <div class="cnvBox" id="2">
+                                    <canvas class="cnv" id="2"></canvas>
+                                    <div class="cancel" id="2"><p style="transform: translateY(4px);">×</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="imgAr" class="arrow"></div>
                 </div>
             </div>
         </div>
@@ -27,7 +63,7 @@
                     <div class="icon" id="iStar"></div>
                     <div class="subT">Star List</div>
                 </div>
-                <div class="main" style="background: #0f0">
+                <div class="main">
 
                 </div>
             </div>
@@ -36,12 +72,15 @@
                     <div class="icon" id="iGraph"></div>
                     <div class="subT">Graph</div>
                 </div>
-                <div class="main" style="background: #00f">
+                <div class="main">
 
                 </div>
             </div>
         </div>
     </div>
+    <input class="inUpl" id="inUpl0" type="file" accept="image/*" style="display: none;">
+    <input class="inUpl" id="inUpl1" type="file" accept="image/*" style="display: none;">
+    <input class="inUpl" id="inUpl2" type="file" accept="image/*" style="display: none;">
 </body>
 <script src="src/script.js" type="module" defer></script>
 <script src="src/main.js" type="module" defer></script>
