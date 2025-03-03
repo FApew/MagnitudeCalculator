@@ -1,6 +1,9 @@
 /* -------------------------------------------------------------------------- */
 /*                         Coded by F. Aiello 02/2025                         */
 /* -------------------------------------------------------------------------- */
+
+/* ---------------------------- /*SECTION - Main ---------------------------- */
+
 html {
     --bg: #0c0d25;
     --col: #131539;
@@ -119,6 +122,52 @@ body {
     background-image: url(./assets/imgs/graph.png);
 }
 
+.subT {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    font-family: "aero";
+    font-size: 50px;
+    color: var(--top);
+
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+    transform: translateY(5px);
+}
+
+.main {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+@font-face {
+    font-family: "aero";
+    src: url("./assets/fonts/POIAeronautTrial-Regular.otf") format("opentype");   
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* ------------------------------- /*!SECTION ------------------------------- */
+
+/* --------------------------- /*SECTION - Image ---------------------------- */
+
+#mImg {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 250px 40px 1fr 40px;
+    grid-template-rows: 1fr;
+}
+
+/* -------------------------- /*SECTION - Options --------------------------- */
+
 #optionsBox {
     position: relative;
     width: 100%;
@@ -183,21 +232,6 @@ body {
     align-items: center;
 }
 
-.oNum {
-    position: relative;
-    width: 30px;
-
-    background-color: #00000000;
-    border: unset;
-    border-bottom: 2px solid #fff;
-    outline: unset;
-
-    text-align: center;
-    color: var(--top);
-    font-family: "aero";
-    font-size: 20px;
-}
-
 #submit {
     position: relative;
     width: 80%;
@@ -226,6 +260,137 @@ body {
 
     transform: scale(1.1);
 }
+
+/* ------------------------- /*SECTION - SwitchInput ------------------------ */
+
+.oCbxBox {
+    width: 70px;
+
+    margin-left: 10px;
+}
+
+.oCbx {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.oCbxSwitch {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    border-radius: 20px;
+    background: -webkit-gradient(linear, left top, right top, color-stop(50%, var(--col)), color-stop(50%, var(--top))) no-repeat;
+    background-size: 200%;
+
+    transition: .4s;
+    cursor: pointer;
+}
+
+.oCbxSwitch:before {
+    position: absolute;
+    content: "";
+    height: 70%;
+    aspect-ratio: 1;
+    left: 10%;
+    bottom: 15%;
+
+    border-radius: 100%;
+    background: -webkit-gradient(linear, left top, right top, color-stop(50%, var(--top)), color-stop(50%, #fff)) no-repeat;
+    background-size: 200%;
+
+    transform: rotate(180deg);
+    transition: .4s;
+}
+
+.oCbx:checked + .oCbxSwitch:before {
+    transform: translateX(100%) rotate(180deg);
+    background-position: 100%;
+}
+
+.oCbx:checked + .oCbxSwitch {
+    background-position: 100%;
+}
+
+/* ------------------------------- /*!SECTION ------------------------------- */
+
+/* ------------------------- /*SECTION - NumberInput ------------------------ */
+
+.oNum {
+    position: relative;
+    width: 30px;
+
+    background-color: #00000000;
+    border: unset;
+    border-bottom: 2px solid #fff;
+    outline: unset;
+
+    text-align: center;
+    color: var(--top);
+    font-family: "aero";
+    font-size: 20px;
+}
+
+/* ------------------------------- /*!SECTION ------------------------------- */
+
+/* ------------------------- /*SECTION - SliderInput ------------------------ */
+
+.oRng {
+    appearance: none;
+    background: -webkit-gradient(linear, left top, right top, color-stop(50%, var(--col)), color-stop(50%, var(--top)));
+    background-size: 200%;
+
+    cursor: pointer;
+    width: 150px;
+    height: 40px;
+    
+    box-sizing: border-box;
+    border-radius: 40px;
+
+    margin: 0 0 0 5px;
+}
+
+.oRng:focus {
+    outline: none;
+}
+
+.oRng::-webkit-slider-thumb {
+    appearance: none;
+    height: 40px;
+    aspect-ratio: 1;
+    border-radius: 100%;
+    border: 5px var(--top) solid;
+
+    background: #fff;
+}
+
+.oRngDisplay {
+    position: absolute;
+    pointer-events: none;
+    left: 0px;
+
+    width: 30px;
+    aspect-ratio: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: "aero";
+    transform: translateY(2px);
+}
+
+/* ------------------------------- /*!SECTION ------------------------------- */
+
+/* ------------------------------- /*!SECTION ------------------------------- */
+
+/* --------------------------- /*SECTION - Upload --------------------------- */
 
 #imgSelector {
     position: relative;
@@ -271,16 +436,6 @@ body {
 
 .imgBox#b {
     border-color: var(--blue);
-}
-
-#mImg {
-    position: relative;
-    width: 100%;
-    height: 100%;
-
-    display: grid;
-    grid-template-columns: 250px 40px 1fr 40px;
-    grid-template-rows: 1fr;
 }
 
 .uploadBox {
@@ -381,32 +536,7 @@ body {
     transform: rotate(180deg) scale(1.5);
 }
 
-.subT {
-    position: relative;
-    width: 100%;
-    height: 100%;
+/* ------------------------------- /*!SECTION ------------------------------- */
 
-    font-family: "aero";
-    font-size: 50px;
-    color: var(--top);
+/* ------------------------------- /*!SECTION ------------------------------- */
 
-    display: flex;
-    justify-content: start;
-    align-items: center;
-
-    transform: translateY(5px);
-}
-
-.main {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 5px;
-}
-
-@font-face {
-    font-family: "aero";
-    src: url("./assets/fonts/POIAeronautTrial-Regular.otf") format("opentype");
-    font-weight: normal;
-    font-style: normal;
-}
