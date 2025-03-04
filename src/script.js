@@ -6,7 +6,7 @@
 const imgArr = document.querySelectorAll(".upTxt")
 const uplArr = document.querySelectorAll(".inUpl")
 
-let imgs = []
+let imgs = [], starPos = []
 
 imgArr.forEach((txt) => {
     txt.addEventListener("click", () => {
@@ -59,12 +59,12 @@ cnvBoxes.forEach((box) => {
 })
 
 window.addEventListener("resize", () => {
-    cnvs.forEach((cnv) => {
+    cnvs.forEach((cnv, idx) => {
         cnv.width = cnvBoxes[0].clientWidth
         cnv.height = cnvBoxes[0].clientHeight
 
-        if (imgs[cnv.id]) {
-            let img = imgs[cnv.id]
+        if (imgs[idx]) {
+            let img = imgs[idx]
 
             drawImage(cnv, img)
         }
@@ -113,7 +113,7 @@ function getImgArgs(img) {
 }
 
 function drawImage(cnv, img) {
-    let ctx = cnv.getContext("2d")
+    let ctx = cnv.getContext("2d", { willReadFrequently: true })
     ctx.fillStyle = "#0c0d25"
     ctx.fillRect(0,0,cnv.width,cnv.height)
 
@@ -226,10 +226,10 @@ options.forEach((opt) => {
 optBox.style.gridTemplateRows = temp
 
 function refreshSlider(elm) {
-    elm.style.backgroundPosition = `-${elm.value/elm.max*70 + 15}%`
+    elm.style.backgroundPosition = `-${(elm.value-elm.min)/(elm.max-elm.min)*70 + 15}%`
     let display = elm.parentElement.querySelector(".oRngDisplay")
     display.innerHTML = `${Math.round(elm.value)}`
-    display.style.left = `calc(${(elm.value/elm.max*70 + 15)}% - 13px)`
+    display.style.left = `calc(${((elm.value-elm.min)/(elm.max-elm.min)*70 + 15)}% - 13px)`
 }
 
 /* ------------------------------- //!SECTION ------------------------------- */
@@ -243,7 +243,8 @@ submit.addEventListener("click", () => {
 
         })
         let idx = 0, img = imgs[0]
-        getStarArr(img, idx)
+        starPos[idx]=getStarArr(img, idx)
+        drawStars(img, idx)
     }
 })
 
@@ -259,77 +260,76 @@ function getStarArr(img, idx) {
     /*let imgCnv = document.createElement("canvas")
     imgCnv.width = w
     imgCnv.height = h
-    let imgCtx = imgCnv.getContext("2d")
+    let imgCtx = imgCnv.getContext("2d", { willReadFrequently: true })
     imgCtx.drawImage(img, 0, 0, w, h)
 
     let pixels = imgCtx.getImageData(0, 0, w, h).data*/
 
     let args = getImgArgs(img)
-    let ox = args[0], oy = args[1]
+    //let ox = args[0], oy = args[1]
     let pixels = ctx.getImageData(args[0], args[1], args[2], args[3]).data
 
-    let sens = parseFloat(document.getElementById("sens").value)/100, size = parseFloat(document.getElementById("size").value), sens2 = .98
+    let sens = parseFloat(document.getElementById("sens").value)/100
+    let dist = parseFloat(document.getElementById("dist").value)
+    let sens2 = parseFloat(document.getElementById("cent").value)/10
+
+    let steps = 2
 
     for (let y = 0; y < h; y++) {
         for (let x = 0; x < w; x++) {
-            if (rgbToLum(pxVal(x, y)) > 255*(1-sens) && search(x, y)) {
-                let lum = rgbToLum(pxVal(x, y))
-                let leftX = x, rightX = x
-                do {
-                    leftX--
-                } while (rgbToLum(pxVal(leftX, y)) > 255*(1-sens));
+            let minLum = 255*(1-sens)
+            if (rgbToLum(pxVal(x, y)) > minLum && search(x, y)) {
+                let midY = y, midX = x
+                for (let i = 0; i < steps; i++) {
+                    let endsY = getEnds(midX, midY, 1, minLum)
+                    midY = Math.floor(endsY.reduce((a, b) => a + b)/2)
 
-                do {
-                    rightX++
-                } while (rgbToLum(pxVal(rightX, y)) > 255*(1-sens));
+                    let endsX = getEnds(midX, midY, 0, minLum)
+                    midX = Math.floor(endsX.reduce((a, b) => a + b)/2)
 
-                let midX = Math.floor((leftX+rightX)/2)
-                
-                let topY = y, botY = y
+                    minLum = rgbToLum(pxVal(midX, midY))*sens2
+                }
 
-                do {
-                    topY--
-                } while (rgbToLum(pxVal(midX, topY)) > 255*(1-sens));
+                let endsX = getEnds(midX, midY, 0, minLum)
+                let dx = Math.abs(endsX.reduce((a, b) => a - b))
+                let endsY = getEnds(midX, midY, 1, minLum)
+                let dy = Math.abs(endsY.reduce((a, b) => a - b))
 
-                do {
-                    botY++
-                } while (rgbToLum(pxVal(midX, botY)) > 255*(1-sens));
+                /*ctx.strokeStyle = "#ff0000a6"
+                ctx.beginPath()
+                ctx.moveTo(endsX[0]+ox, midY+oy)
+                ctx.lineTo(endsX[1]+ox, midY+oy)
+                ctx.stroke()
 
-                let midY = Math.floor((botY + topY)/2)
+                ctx.strokeStyle = "#00ff00a6"
+                ctx.beginPath()
+                ctx.moveTo(midX+ox, endsY[0]+oy)
+                ctx.lineTo(midX+ox, endsY[1]+oy)
+                ctx.stroke()*/
 
-                topY = midY, botY = midY
-                lum = rgbToLum(pxVal(midX, midY)) 
-
-                do {
-                    topY--
-                } while (rgbToLum(pxVal(midX, topY)) > lum*sens2);
-
-                do {
-                    botY++
-                } while (rgbToLum(pxVal(midX, botY)) > lum*sens2);
-
-                starsArr.push([midX, midY, Math.abs(topY-botY)])
+                if(search(midX, midY)) starsArr.push([midX, midY, Math.floor((dx+dy)/2)])
             }
         }
     }
 
-    starsArr.forEach((star) => {
-        let x = star[0], y = star [1]
-
-        ctx.strokeStyle = "#aa00007f"
-        ctx.beginPath()
-        ctx.arc(x+ox, y+oy, size, 0, 2*Math.PI)
-        ctx.stroke()
-
-        ctx.strokeStyle = "#a17fffaf"
-        ctx.beginPath()
-        ctx.arc(x+ox, y+oy, star[2], 0, 2*Math.PI)
-        ctx.stroke()
-
-        console.log(star)
-    })
-
     return starsArr
+
+    function getEnds(x, y, dir, minLum) {
+        let end = []
+        let test = dir ? y : x
+        do {
+            test--
+        } while (rgbToLum(pxVal(dir ? x : test, dir ? test : y)) > minLum);
+        end.push(test)
+
+        test = dir ? y : x
+        do {
+            test++
+        } while (rgbToLum(pxVal(dir ? x : test, dir ? test : y)) > minLum);
+        end.push(test)
+
+        return end
+    }
 
     function pxVal(x, y) {
         return [pixels[(y*w+x)*4], pixels[(y*w+x)*4+1], pixels[(y*w+x)*4+2]]
@@ -341,12 +341,39 @@ function getStarArr(img, idx) {
 
     function search(x, y) {
         for (let star of starsArr) {
-            if (Math.hypot(x-star[0], y-star[1]) < size+star[2]){
+            if (Math.hypot(x-star[0], y-star[1]) < dist+star[2]){
                 return false
             }
         }
         return true
     }
+}
+
+function drawStars(img, idx) {
+    starPos[idx].forEach((star) => {
+        let ctx = cnvArr[idx].getContext("2d", { willReadFrequently: true })
+        let x = star[0], y = star[1]
+
+        let dist = parseFloat(document.getElementById("dist").value)
+        let args = getImgArgs(img)
+        let ox = args[0], oy = args[1]
+
+        ctx.fillStyle = "#00f"
+        ctx.fillRect(x+ox, y+oy, 1, 1)
+
+        ctx.strokeStyle = "#a00"
+        ctx.beginPath()
+        if (dist != 0) ctx.arc(x+ox, y+oy, dist+star[2]/2, 0, 2*Math.PI)
+        ctx.stroke()
+
+        ctx.strokeStyle = "#a17fff"
+        ctx.beginPath()
+        ctx.arc(x+ox, y+oy, star[2]/2, 0, 2*Math.PI)
+        ctx.stroke()
+
+        console.log(star)
+    })
+    console.log("StarNum: " + starPos[0].length)
 }
 
 /* ------------------------------- //!SECTION ------------------------------- */

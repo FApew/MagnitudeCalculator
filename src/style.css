@@ -480,6 +480,12 @@ body {
     visibility: hidden;
 }
 
+.cnv {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
 .cancel {
     position: absolute;
     right: 5px;

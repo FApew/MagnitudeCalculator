@@ -12,6 +12,8 @@ class option {
 export let options = [
     new option("RGB Mode", "cbx", 1),
     new option("K value", "num", null),
-    new option("Sensibility", "rng", 30, 0, 100, 5),
-    new option("Size", "rng", 15, 0, 50, 1),
+    new option("Sensibility", "rng", 50, 0, 100, 5),
+    new option("Distance", "rng", 10, 0, 50, 1),
+    //new option("Steps", "rng", 3, 1, 10, 1),
+    new option("CenterSens", "rng", 8, 0, 10, 0.5)
 ]
