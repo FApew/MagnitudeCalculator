@@ -67,6 +67,11 @@ window.addEventListener("resize", () => {
             let img = imgs[idx]
 
             drawImage(cnv, img)
+
+            if (starPos[idx]) {
+                starPos[idx]=getStarArr(img, idx)
+                drawStars(img, idx)
+            }
         }
     })
 })
@@ -228,7 +233,7 @@ optBox.style.gridTemplateRows = temp
 function refreshSlider(elm) {
     elm.style.backgroundPosition = `-${(elm.value-elm.min)/(elm.max-elm.min)*70 + 15}%`
     let display = elm.parentElement.querySelector(".oRngDisplay")
-    display.innerHTML = `${Math.round(elm.value)}`
+    display.innerHTML = `${elm.value}`
     display.style.left = `calc(${((elm.value-elm.min)/(elm.max-elm.min)*70 + 15)}% - 13px)`
 }
 
@@ -271,28 +276,35 @@ function getStarArr(img, idx) {
 
     let sens = parseFloat(document.getElementById("sens").value)/100
     let dist = parseFloat(document.getElementById("dist").value)
+    let steps = parseFloat(document.getElementById("step").value)
     let sens2 = parseFloat(document.getElementById("cent").value)/10
 
-    let steps = 2
+    
 
     for (let y = 0; y < h; y++) {
         for (let x = 0; x < w; x++) {
             let minLum = 255*(1-sens)
             if (rgbToLum(pxVal(x, y)) > minLum && search(x, y)) {
                 let midY = y, midX = x
+                let mids = [[],[]]
                 for (let i = 0; i < steps; i++) {
                     let endsY = getEnds(midX, midY, 1, minLum)
-                    midY = Math.floor(endsY.reduce((a, b) => a + b)/2)
+                    mids[1][i] = endsY.reduce((a, b) => a + b)/2
+                    midY = Math.floor(mids[1][i])
 
                     let endsX = getEnds(midX, midY, 0, minLum)
-                    midX = Math.floor(endsX.reduce((a, b) => a + b)/2)
+                    mids[0][i] = endsX.reduce((a, b) => a + b)/2
+                    midX = Math.floor(mids[0][i])
 
                     minLum = rgbToLum(pxVal(midX, midY))*sens2
                 }
 
-                let endsX = getEnds(midX, midY, 0, minLum)
+                let avgX = mids[0].reduce((a, b) => a + b)/mids[0].length
+                let avgY = mids[1].reduce((a, b) => a + b)/mids[1].length
+
+                let endsX = getEnds(Math.floor(avgX), Math.floor(avgY), 0, minLum)
                 let dx = Math.abs(endsX.reduce((a, b) => a - b))
-                let endsY = getEnds(midX, midY, 1, minLum)
+                let endsY = getEnds(Math.floor(avgX), Math.floor(avgY), 1, minLum)
                 let dy = Math.abs(endsY.reduce((a, b) => a - b))
 
                 /*ctx.strokeStyle = "#ff0000a6"
@@ -307,7 +319,7 @@ function getStarArr(img, idx) {
                 ctx.lineTo(midX+ox, endsY[1]+oy)
                 ctx.stroke()*/
 
-                if(search(midX, midY)) starsArr.push([midX, midY, Math.floor((dx+dy)/2)])
+                if(search(avgX, avgY)) starsArr.push([avgX, avgY, Math.ceil((dx+dy)/2)])
             }
         }
     }
@@ -320,6 +332,7 @@ function getStarArr(img, idx) {
         do {
             test--
         } while (rgbToLum(pxVal(dir ? x : test, dir ? test : y)) > minLum);
+        test++
         end.push(test)
 
         test = dir ? y : x
