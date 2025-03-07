@@ -8,12 +8,14 @@ const uplArr = document.querySelectorAll(".inUpl")
 
 let imgs = [], starPos = []
 
+//NOTE - UploadButton
 imgArr.forEach((txt) => {
     txt.addEventListener("click", () => {
         document.getElementById(`inUpl${txt.id}`).click()
     })
 })
 
+//NOTE - LoadImg
 uplArr.forEach((upl) => {
     upl.addEventListener("change", (event) => {
         let file = event.target.files[0]
@@ -47,6 +49,7 @@ const cnvBoxes = document.querySelectorAll(".cnvBox")
 const cancButtons = document.querySelectorAll(".cancel")
 let cnvArr = [], boxArr = []
 
+//NOTE - CreateCnv
 cnvs.forEach((cnv) => {
     cnvArr[cnv.id] = cnv
 
@@ -58,6 +61,7 @@ cnvBoxes.forEach((box) => {
     boxArr[box.id] = box
 })
 
+//NOTE - ResizeListener
 window.addEventListener("resize", () => {
     cnvs.forEach((cnv, idx) => {
         cnv.width = cnvBoxes[0].clientWidth
@@ -76,6 +80,7 @@ window.addEventListener("resize", () => {
     })
 })
 
+//NOTE - CancButton
 cancButtons.forEach((canc) => {
     canc.addEventListener("click", () => {
         let idx = canc.id
@@ -86,6 +91,7 @@ cancButtons.forEach((canc) => {
     })
 })
 
+//NOTE - InsertImgFunction
 function insertImg(idx) {
     let cnv = cnvArr[idx]
     let box = boxArr[idx]
@@ -96,6 +102,7 @@ function insertImg(idx) {
     drawImage(cnv, img)
 }
 
+//NOTE - ImgArgsFunction
 function getImgArgs(img) {
     let box = cnvBoxes[0]
 
@@ -117,6 +124,7 @@ function getImgArgs(img) {
     return [ox, oy, w, h]
 }
 
+//NOTE - CnvDrawImg
 function drawImage(cnv, img) {
     let ctx = cnv.getContext("2d", { willReadFrequently: true })
     ctx.fillStyle = "#0c0d25"
@@ -136,6 +144,7 @@ const imgSlider = document.getElementById("imgSlider")
 
 let selImg = 0
 
+//NOTE - Arrows
 aL.addEventListener("click", () => {
     if (selImg > 0 ) selImg-=1
     imgSlider.style.transform = `translateX(${-selImg*1/3*100}%)`
@@ -153,6 +162,7 @@ const optBox = document.getElementById("mainOptions")
 
 let temp = ""
 
+//NOTE - OptionObjsCreator
 options.forEach((opt) => {
     let oBox = document.createElement("div")
     let oTxt = document.createElement("div")
@@ -230,6 +240,7 @@ options.forEach((opt) => {
 
 optBox.style.gridTemplateRows = temp
 
+//NOTE - SliderEngine
 function refreshSlider(elm) {
     elm.style.backgroundPosition = `-${(elm.value-elm.min)/(elm.max-elm.min)*70 + 15}%`
     let display = elm.parentElement.querySelector(".oRngDisplay")
@@ -241,6 +252,7 @@ function refreshSlider(elm) {
 
 /* ---------------------- //SECTION - Image Processing ---------------------- */
 
+//NOTE - SubmitButton
 const submit = document.getElementById("submit")
 submit.addEventListener("click", () => {
     if(imgs[0]/* && imgs[1] && imgs[2]*/) {
@@ -253,6 +265,7 @@ submit.addEventListener("click", () => {
     }
 })
 
+//NOTE - StarArray
 function getStarArr(img, idx) {
     let cnv = cnvArr[idx]
     let ctx = cnv.getContext("2d", { willReadFrequently: true })
@@ -362,6 +375,7 @@ function getStarArr(img, idx) {
     }
 }
 
+//NOTE - StarDrawer
 function drawStars(img, idx) {
     starPos[idx].forEach((star) => {
         let ctx = cnvArr[idx].getContext("2d", { willReadFrequently: true })
