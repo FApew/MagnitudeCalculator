@@ -580,6 +580,26 @@ body {
 
 /* ------------------------------- /*!SECTION ------------------------------- */
 
+/* --------------------------- /*SECTION - Markers -------------------------- */
+
+.starMark {
+    position: absolute;
+    aspect-ratio: 1;
+
+    border: #ff000097 solid 1px;
+    border-radius: 100%;
+    box-sizing: border-box;
+
+    transition: all .1s ease-out;
+}
+
+.starMark.hover, .starMark:hover{
+    border-color: #a17fff;
+    transform: scale(1.5);
+}
+
+/* ------------------------------- /*!SECTION ------------------------------- */
+
 /* ---------------------------- /*SECTION - List ---------------------------- */
 
 #starList > .main {
@@ -701,6 +721,12 @@ body {
 
     padding: 5px;
     box-sizing: border-box;
+
+    transition: .1s all linear;
+}
+
+.lEBox.hover, .lEBox:hover {
+    background: var(--top);
 }
 
 .lNum {

@@ -89,6 +89,7 @@ cancButtons.forEach((canc) => {
         starPos[idx] = null
         document.querySelector(`.listBox.${"rgb"[idx]}`).children[1].children[0].innerHTML = ""
         boxArr[idx].style.visibility = "hidden"
+        Array.from(cnvBoxes[idx].children).filter(elm => elm.classList.contains("starMark")).forEach((elm) => elm.outerHTML = "")
         document.getElementById(`inUpl${idx}`).files = new DataTransfer().files
     })
 })
@@ -281,17 +282,17 @@ starSubmit.addEventListener("click", () => {
 })
 
 //NOTE - StarArray
-function getStarArr(img, idx) {
-    let cnv = cnvArr[idx]
-    let ctx = cnv.getContext("2d", { willReadFrequently: true })
-    drawImage(cnv, img)
+function getStarArr(img) {
+    let cnv = document.createElement("canvas")
+    let w = img.width, h = img.height
 
-    let w = cnv.width, h = cnv.height
+    cnv.width = w; cnv.height = h
+    
+    let ctx = cnv.getContext("2d", { willReadFrequently: true })
+    ctx.drawImage(img, 0, 0, w, h)
 
     let starsArr = []
-
-    let args = getImgArgs(img)
-    let pixels = ctx.getImageData(args[0], args[1], args[2], args[3]).data
+    let pixels = ctx.getImageData(0, 0, w, h).data
 
     let sens = parseFloat(document.getElementById("sens").value)/100
     let dist = parseFloat(document.getElementById("dist").value)
@@ -369,28 +370,31 @@ function getStarArr(img, idx) {
 
 //NOTE - StarDrawer
 function drawStars(img, idx) {
-    starPos[idx].forEach((star) => {
-        let ctx = cnvArr[idx].getContext("2d", { willReadFrequently: true })
-        let x = star.center[0], y = star.center[1]
+    Array.from(cnvBoxes[idx].children).filter(elm => elm.classList.contains("starMark")).forEach((elm) => elm.outerHTML = "")
+    let args = getImgArgs(img)
+    let scale = args[1] ? args[2]/img.width : args[3]/img.height
 
-        let dist = parseFloat(document.getElementById("dist").value)
-        let args = getImgArgs(img)
-        let ox = args[0], oy = args[1]
+    starPos[idx].forEach((star, i) => {
+        
+        let elm = document.createElement("div")
+        elm.classList.add("starMark")
+        elm.id = "s" + i
+        let w = star.radius*2*scale+10
+        elm.style.width = `${w}px`
 
-        ctx.fillStyle = "#00f"
-        ctx.fillRect(x+ox, y+oy, 1, 1)
+        elm.style.left = `${args[0]+star.center[0]*scale-w/2}px`
+        elm.style.top = `${args[1]+star.center[1]*scale-w/2}px`
 
-        ctx.strokeStyle = "#a00"
-        ctx.beginPath()
-        if (dist != 0) ctx.arc(x+ox, y+oy, dist+star.radius, 0, 2*Math.PI)
-        ctx.stroke()
+        elm.addEventListener("click", async () => {
+            await new Promise(resolve => setTimeout(resolve, 0))
+            starSelector(0, i, 0, idx)
+            await new Promise(resolve => setTimeout(resolve, 800))
+            starSelector(0, i, 1, idx)
+            await new Promise(resolve => setTimeout(resolve, 300))
+            starSelector(0, i, 0, idx)
+        })
 
-        ctx.strokeStyle = "#a17fff"
-        ctx.beginPath()
-        ctx.arc(x+ox, y+oy, star.radius, 0, 2*Math.PI)
-        ctx.stroke()
-
-        console.log(star)
+        cnvBoxes[idx].appendChild(elm)
     })
     console.log("StarNum: " + starPos[0].length)
 }
@@ -402,6 +406,7 @@ function listStars(idx) {
     starPos[idx].forEach((star, i) => {
         let lEBox = document.createElement("div")
         lEBox.classList.add("lEBox")
+        lEBox.id = "s" + i
 
         let lNum = document.createElement("div")
         lNum.classList.add("lNum")
@@ -414,10 +419,42 @@ function listStars(idx) {
         lEBox.appendChild(lNum)
         lEBox.appendChild(lRad)
 
+        lEBox.addEventListener("mouseenter", () => {
+            starSelector(1, i, 1, idx)
+        })
+
+        lEBox.addEventListener("mouseleave", () => {
+            starSelector(1, i, 0, idx)
+        })
+
         listBox.appendChild(lEBox)
     })
 
     listBox.style.gridTemplateRows = `repeat(${starPos[idx].length}, 50px)`
+}
+
+function starSelector(dir, idx, b, rgb) {
+    let listBox = document.querySelector(`.listBox.${"rgb"[rgb]}`).children[1]
+    let listElm = document.querySelector(`.lEBox#s${idx}`)
+    let starElm = document.querySelector(`.starMark#s${idx}`)
+
+    console.log(idx)
+
+    if(!dir) {
+        listBox.scrollTo({ top: listElm.offsetTop, behavior: "smooth"})
+        if (b) {
+            listElm.classList.add("hover")
+        } else {
+            listElm.classList.remove("hover")
+        }
+
+    } else {
+        if (b) {
+            starElm.classList.add("hover")
+        } else {
+            starElm.classList.remove("hover")
+        }
+    }
 }
 
 /* ------------------------------- //!SECTION ------------------------------- */
