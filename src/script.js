@@ -86,6 +86,8 @@ cancButtons.forEach((canc) => {
         let idx = canc.id
 
         imgs[idx] = null
+        starPos[idx] = null
+        document.querySelector(`.listBox.${"rgb"[idx]}`).children[1].children[0].innerHTML = ""
         boxArr[idx].style.visibility = "hidden"
         document.getElementById(`inUpl${idx}`).files = new DataTransfer().files
     })
@@ -141,6 +143,7 @@ function drawImage(cnv, img) {
 const aL = document.getElementById("imgAl")
 const aR = document.getElementById("imgAr")
 const imgSlider = document.getElementById("imgSlider")
+const listSlider = document.getElementById("listSlider")
 
 let selImg = 0
 
@@ -148,11 +151,12 @@ let selImg = 0
 aL.addEventListener("click", () => {
     if (selImg > 0 ) selImg-=1
     imgSlider.style.transform = `translateX(${-selImg*1/3*100}%)`
-    
+    listSlider.style.transform = `translateX(${-selImg*1/3*100}%)`
 })
 aR.addEventListener("click", () => {
     if (selImg < 2) selImg+=1
     imgSlider.style.transform = `translateX(${-selImg*1/3*100}%)`
+    listSlider.style.transform = `translateX(${-selImg*1/3*100}%)`
 })
 /* ------------------------------- //!SECTION ------------------------------- */
 
@@ -250,18 +254,29 @@ function refreshSlider(elm) {
 
 /* ------------------------------- //!SECTION ------------------------------- */
 
-/* ---------------------- //SECTION - Image Processing ---------------------- */
+/* ------------------------- //SECTION - StarHandler ------------------------ */
 
-//NOTE - SubmitButton
-const submit = document.getElementById("submit")
-submit.addEventListener("click", () => {
+class Star {
+    constructor(center, radius) {
+        this.center = center
+        this.radius = radius
+        this.magnitude = null
+    }
+}
+
+//NOTE - StarSubmitButton
+const starSubmit = document.getElementById("starSubmit")
+starSubmit.addEventListener("click", () => {
     if(imgs[0]/* && imgs[1] && imgs[2]*/) {
         imgs.forEach((img, idx) => {
 
         })
         let idx = 0, img = imgs[0]
         starPos[idx]=getStarArr(img, idx)
+
         drawStars(img, idx)
+
+        listStars(idx)
     }
 })
 
@@ -274,25 +289,14 @@ function getStarArr(img, idx) {
     let w = cnv.width, h = cnv.height
 
     let starsArr = []
-    
-    /*let imgCnv = document.createElement("canvas")
-    imgCnv.width = w
-    imgCnv.height = h
-    let imgCtx = imgCnv.getContext("2d", { willReadFrequently: true })
-    imgCtx.drawImage(img, 0, 0, w, h)
-
-    let pixels = imgCtx.getImageData(0, 0, w, h).data*/
 
     let args = getImgArgs(img)
-    //let ox = args[0], oy = args[1]
     let pixels = ctx.getImageData(args[0], args[1], args[2], args[3]).data
 
     let sens = parseFloat(document.getElementById("sens").value)/100
     let dist = parseFloat(document.getElementById("dist").value)
     let steps = parseFloat(document.getElementById("step").value)
-    let sens2 = parseFloat(document.getElementById("cent").value)/10
-
-    
+    let sens2 = parseFloat(document.getElementById("ctrs").value)/10
 
     for (let y = 0; y < h; y++) {
         for (let x = 0; x < w; x++) {
@@ -320,19 +324,7 @@ function getStarArr(img, idx) {
                 let endsY = getEnds(Math.floor(avgX), Math.floor(avgY), 1, minLum)
                 let dy = Math.abs(endsY.reduce((a, b) => a - b))
 
-                /*ctx.strokeStyle = "#ff0000a6"
-                ctx.beginPath()
-                ctx.moveTo(endsX[0]+ox, midY+oy)
-                ctx.lineTo(endsX[1]+ox, midY+oy)
-                ctx.stroke()
-
-                ctx.strokeStyle = "#00ff00a6"
-                ctx.beginPath()
-                ctx.moveTo(midX+ox, endsY[0]+oy)
-                ctx.lineTo(midX+ox, endsY[1]+oy)
-                ctx.stroke()*/
-
-                if(search(avgX, avgY)) starsArr.push([avgX, avgY, Math.ceil((dx+dy)/2)])
+                if(search(avgX, avgY)) starsArr.push(new Star([avgX, avgY], Math.ceil((dx+dy)/4)))
             }
         }
     }
@@ -367,7 +359,7 @@ function getStarArr(img, idx) {
 
     function search(x, y) {
         for (let star of starsArr) {
-            if (Math.hypot(x-star[0], y-star[1]) < dist+star[2]){
+            if (Math.hypot(x-star.center[0], y-star.center[1]) < dist+star.radius*2){
                 return false
             }
         }
@@ -379,7 +371,7 @@ function getStarArr(img, idx) {
 function drawStars(img, idx) {
     starPos[idx].forEach((star) => {
         let ctx = cnvArr[idx].getContext("2d", { willReadFrequently: true })
-        let x = star[0], y = star[1]
+        let x = star.center[0], y = star.center[1]
 
         let dist = parseFloat(document.getElementById("dist").value)
         let args = getImgArgs(img)
@@ -390,17 +382,48 @@ function drawStars(img, idx) {
 
         ctx.strokeStyle = "#a00"
         ctx.beginPath()
-        if (dist != 0) ctx.arc(x+ox, y+oy, dist+star[2]/2, 0, 2*Math.PI)
+        if (dist != 0) ctx.arc(x+ox, y+oy, dist+star.radius, 0, 2*Math.PI)
         ctx.stroke()
 
         ctx.strokeStyle = "#a17fff"
         ctx.beginPath()
-        ctx.arc(x+ox, y+oy, star[2]/2, 0, 2*Math.PI)
+        ctx.arc(x+ox, y+oy, star.radius, 0, 2*Math.PI)
         ctx.stroke()
 
         console.log(star)
     })
     console.log("StarNum: " + starPos[0].length)
 }
+
+//NOTE - ListUpdater
+function listStars(idx) {
+    let listBox = document.querySelector(`.listBox.${"rgb"[idx]}`).children[1].children[0]
+
+    starPos[idx].forEach((star, i) => {
+        let lEBox = document.createElement("div")
+        lEBox.classList.add("lEBox")
+
+        let lNum = document.createElement("div")
+        lNum.classList.add("lNum")
+        let lRad = document.createElement("div")
+        lRad.classList.add("lRad")
+
+        lNum.innerHTML = i
+        lRad.innerHTML = star.radius
+
+        lEBox.appendChild(lNum)
+        lEBox.appendChild(lRad)
+
+        listBox.appendChild(lEBox)
+    })
+
+    listBox.style.gridTemplateRows = `repeat(${starPos[idx].length}, 50px)`
+}
+
+/* ------------------------------- //!SECTION ------------------------------- */
+
+/* --------------------- //SECTION - MagnitudeCalculator -------------------- */
+
+
 
 /* ------------------------------- //!SECTION ------------------------------- */

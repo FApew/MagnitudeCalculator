@@ -22,28 +22,31 @@
                 <div class="main" id="mImg">
                     <div id="optionsBox">
                         <div id="mainOptions"></div>
-                        <div id="submit"><p style="transform: translateY(3px);">SUBMIT</p></div>
+                        <div id="buttons">
+                            <div id="starSubmit"></div>
+                            <div id="calcSubmit">CALCULATE</div>
+                        </div>
                     </div>
 
                     <div id="imgAl" class="arrow"></div>
 
                     <div id="imgSelector">
                         <div id="imgSlider">
-                            <div class="imgBox" id="r">
+                            <div class="imgBox r">
                                 <div class="uploadBox"><div class="iUpload"></div><div id="0" class="upTxt">UPLOAD</div></div>
                                 <div class="cnvBox" id="0">
                                     <canvas class="cnv" id="0"></canvas>
-                                    <div class="cancel" id="0"><p style="transform: translateY(4px);">×</p></div>
+                                    <div class="cancel" id="0">×</div>
                                 </div>
                             </div>
-                            <div class="imgBox" id="g">
+                            <div class="imgBox g">
                                 <div class="uploadBox"><div class="iUpload"></div><div id="1" class="upTxt">UPLOAD</div></div>
                                 <div class="cnvBox" id="1">
                                     <canvas class="cnv" id="1"></canvas>
                                     <div class="cancel" id="1"><p style="transform: translateY(4px);">×</p></div>
                                 </div>
                             </div>
-                            <div class="imgBox" id="b">
+                            <div class="imgBox b">
                                 <div class="uploadBox"><div class="iUpload"></div><div id="2" class="upTxt">UPLOAD</div></div>
                                 <div class="cnvBox" id="2">
                                     <canvas class="cnv" id="2"></canvas>
@@ -64,7 +67,38 @@
                     <div class="subT">Star List</div>
                 </div>
                 <div class="main">
-
+                    <div id="listSlider">
+                        <div class="listBox r">
+                            <div class="listHead">
+                                <div class="listParam">N</div>
+                                <div class="listParam">Radius</div>
+                                <div class="listParam">Magnitude</div>
+                            </div>
+                            <div class="scrollBox">
+                                <div class="listScroll"></div>
+                            </div>
+                        </div>
+                        <div class="listBox g">
+                            <div class="listHead">
+                                <div class="listParam">N</div>
+                                <div class="listParam">Radius</div>
+                                <div class="listParam">Magnitude</div>
+                            </div>
+                            <div class="scrollBox">
+                                <div class="listScroll"></div>
+                            </div>
+                        </div>
+                        <div class="listBox b">
+                            <div class="listHead">
+                                <div class="listParam">N</div>
+                                <div class="listParam">Radius</div>
+                                <div class="listParam">Magnitude</div>
+                            </div>
+                            <div class="scrollBox">
+                                <div class="listScroll"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="HRgraph" class="box">

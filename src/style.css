@@ -232,9 +232,47 @@ body {
     align-items: center;
 }
 
-#submit {
+/* --------------------------- /*SECTION - Submit --------------------------- */
+
+#buttons {
     position: relative;
-    width: 80%;
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: max-content 1fr;
+
+    column-gap: 5px;
+    box-sizing: border-box;
+}
+
+#starSubmit {
+    position: relative;
+    height: 100%;
+    aspect-ratio: 1;
+
+    border-radius: 10px;
+    background-color: var(--high);
+    background-image: url(./assets/imgs/stars.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    cursor: pointer;
+
+    transition: all .1s ease-out;
+}
+
+#starSubmit:hover {
+    background-color: var(--top);
+
+    transform: scale(1.1);
+}
+
+#calcSubmit {
+    position: relative;
+    width: 100%;
     height: 100%;
 
     display: flex;
@@ -248,18 +286,23 @@ body {
     color: #fff;
     font-family: "aero";
     font-size: 30px;
-
+    
     cursor: pointer;
 
     transition: all .1s ease-out;
+
+    padding-top: 8px;
+    box-sizing: border-box;
 }
 
-#submit:hover {
+#calcSubmit:hover {
     background: #fff;
     color: var(--high);
 
     transform: scale(1.1);
 }
+
+/* ------------------------------- /*!SECTION ------------------------------- */
 
 /* ------------------------- /*SECTION - SwitchInput ------------------------ */
 
@@ -426,18 +469,6 @@ body {
     overflow: hidden;
 }
 
-.imgBox#r {
-    border-color: var(--red);
-}
-
-.imgBox#g {
-    border-color: var(--green);
-}
-
-.imgBox#b {
-    border-color: var(--blue);
-}
-
 .uploadBox {
     position: absolute;
     width: 100%;
@@ -507,6 +538,9 @@ body {
 
     transition: all .1s ease-out;
     font-family: "aero";
+
+    padding-top: 10px;
+    box-sizing: border-box;
 }
 
 .cancel:hover {
@@ -543,6 +577,187 @@ body {
 }
 
 /* ------------------------------- /*!SECTION ------------------------------- */
+
+/* ------------------------------- /*!SECTION ------------------------------- */
+
+/* ---------------------------- /*SECTION - List ---------------------------- */
+
+#starList > .main {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+#listSlider {
+    position: relative;
+    height: 100%;
+    width: calc(300% + 93px);
+
+    display: flex;
+    flex-direction: row;
+
+    transition: all 0.6s cubic-bezier(.4, -.4, 0, 1);
+}
+
+.listBox {
+    position: relative;
+    width: calc(100% / 3);
+    height: 100%;
+
+    border: 5px solid;
+    padding: 5px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    margin-right: 31px;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 30px 1fr;
+    row-gap: 5px;
+}
+
+.listHead {
+    position: relative;
+    width: calc(100% - 8px);
+    height: 100%;
+
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 50px 1fr 1fr;
+    column-gap: 5px;
+
+    background: var(--col);
+    border-radius: 10px 10px 0 0;
+    box-sizing: border-box;
+}
+
+.listParam {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    background: var(--top);
+    border-radius: 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #fff;
+    font-family: "aero";
+    font-size: 20px;
+
+    padding-top: 3px;
+    box-sizing: border-box;
+}
+
+.scrollBox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    overflow-y: scroll;
+}
+
+.scrollBox::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollBox::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scrollBox::-webkit-scrollbar-thumb {
+    background: var(--top);
+    border-radius: 8px;
+}
+
+.listScroll {
+    position: relative;
+    width: 100%;
+    height: 1vh;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+}
+
+.lEBox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 40px 1fr 1fr;
+    column-gap: 5px;
+
+    background: var(--high);
+    border-radius: 10px;
+
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.lNum {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    background: var(--col);
+    border-radius: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #fff;
+    font-family: "aero";
+    font-size: 20px;
+
+    padding-top: 5px;
+    box-sizing: border-box;
+}
+
+.lRad {
+    position: relative;
+    width: 50%;
+    height: 100%;
+
+    justify-self: center;
+
+    border: var(--top) solid;
+    border-width: 0 0 2px 2px;
+    border-radius: 0 0 0 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #fff;
+    font-family: "aero";
+    font-size: 20px;
+}
+
+.lRad::after {
+    content: "px";
+}
+
+.r {
+    border-color: var(--red);
+}
+
+.g {
+    border-color: var(--green);
+}
+
+.b {
+    border-color: var(--blue);
+}
 
 /* ------------------------------- /*!SECTION ------------------------------- */
 
